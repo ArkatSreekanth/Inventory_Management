@@ -1,48 +1,56 @@
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-public class insert {
+public class Insert {
     public static void main(String[] args) {
         try {
-            String url = "jdbc:mysql://localhost:3306/Project";
+            String url = "jdbc:mysql://localhost:3306/InventoryDB";
             String user = "root";
             String pass = "root";
             Connection con = DriverManager.getConnection(url, user, pass);
             System.out.println("Connected");
 
-            String insertTable = "insert into Bus_Management(b_id,bus_no,st_point,bus_fees) values (?, ?,?,?)";
-            PreparedStatement pstmt = con.prepareStatement(insertTable);
-
-            pstmt.setInt(1, 01);
-            pstmt.setInt(2, 10);
-            pstmt.setString(3, "Karur");
-            pstmt.setInt(4, 22000);
+            String insertCategories = "INSERT INTO Categories (name) VALUES (?)";
+            PreparedStatement pstmt = con.prepareStatement(insertCategories);
+            pstmt.setString(1, "Electronics");
             pstmt.executeUpdate();
-            
-            pstmt.setInt(1, 02);
-            pstmt.setInt(2, 20);
-            pstmt.setString(3, "Salem");
-            pstmt.setInt(4, 7500);
+            pstmt.setString(1, "Furniture");
             pstmt.executeUpdate();
 
-            pstmt.setInt(1, 03);
-            pstmt.setInt(2, 30);
-            pstmt.setString(3, "Namakkal");
-            pstmt.setInt(4, 7200);
+            String insertSuppliers = "INSERT INTO Suppliers (name, contact_info) VALUES (?, ?)";
+            pstmt = con.prepareStatement(insertSuppliers);
+            pstmt.setString(1, "TechCorp");
+            pstmt.setString(2, "contact@techcorp.com");
+            pstmt.executeUpdate();
+            pstmt.setString(1, "FurniWorld");
+            pstmt.setString(2, "support@furniworld.com");
             pstmt.executeUpdate();
 
-            pstmt.setInt(1, 04);
-            pstmt.setInt(2, 40);
-            pstmt.setString(3, "Erode");
-            pstmt.setInt(4, 21000);
+            String insertProducts = "INSERT INTO Products (name, category_id, supplier_id, price) VALUES (?, ?, ?, ?)";
+            pstmt = con.prepareStatement(insertProducts);
+            pstmt.setString(1, "Laptop");
+            pstmt.setInt(2, 1);
+            pstmt.setInt(3, 1);
+            pstmt.setDouble(4, 1200.00);
+            pstmt.executeUpdate();
+            pstmt.setString(1, "Chair");
+            pstmt.setInt(2, 2);
+            pstmt.setInt(3, 2);
+            pstmt.setDouble(4, 150.00);
             pstmt.executeUpdate();
 
-            System.out.println("table data added successfully");
+            String insertStock = "INSERT INTO Stock (product_id, quantity) VALUES (?, ?)";
+            pstmt = con.prepareStatement(insertStock);
+            pstmt.setInt(1, 1);
+            pstmt.setInt(2, 50);
+            pstmt.executeUpdate();
+            pstmt.setInt(1, 2);
+            pstmt.setInt(2, 100);
+            pstmt.executeUpdate();
 
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println(e);
         }
     }

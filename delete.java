@@ -3,23 +3,27 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class delete {
-     public static void main(String[] args){
+public class Delete {
+    public static void main(String[] args) {
         try {
-            String url="jdbc:mysql://localhost:3306/Project";
-            String username="root";
-            String password="root";
-            Connection con=DriverManager.getConnection(url,username,password);
+            String url = "jdbc:mysql://localhost:3306/InventoryDB";
+            String user = "root";
+            String pass = "root";
+            Connection con = DriverManager.getConnection(url, user, pass);
             System.out.println("Connected");
 
-            String delete="delete from Bus_Management where bus_no=?";
-            PreparedStatement pre=con.prepareStatement(delete);
-            pre.setInt(1,10);
-            pre.executeUpdate();
-            System.out.println("delete successfully");
-        }
-        catch(SQLException s){
-            System.out.println(s);
+            String deleteStock = "DELETE FROM Stock WHERE product_id = ?";
+            PreparedStatement pstmt = con.prepareStatement(deleteStock);
+            pstmt.setInt(1, 2);
+            pstmt.executeUpdate();
+
+            String deleteProduct = "DELETE FROM Products WHERE product_id = ?";
+            pstmt = con.prepareStatement(deleteProduct);
+            pstmt.setInt(1, 2);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
         }
     }
 }
